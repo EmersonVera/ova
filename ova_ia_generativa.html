@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVA: Introducción a la Inteligencia Artificial Generativa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,255,100,0.3);
+            margin-bottom: 30px;
+            text-align: center;
+            border: 2px solid #00ff66;
+        }
+
+        header h1 {
+            color: #00ff66;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0,255,102,0.5);
+        }
+
+        header p {
+            color: #b0b0b0;
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .sidebar {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,255,100,0.3);
+            position: sticky;
+            top: 20px;
+            width: 280px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            border: 2px solid #00ff66;
+        }
+
+        .sidebar h3 {
+            color: #00ff66;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            border-bottom: 3px solid #00ff66;
+            padding-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0,255,102,0.5);
+        }
+
+        .menu-item {
+            margin-bottom: 10px;
+        }
+
+        .menu-link {
+            display: block;
+            padding: 12px 15px;
+            color: #e0e0e0;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .menu-link:hover, .menu-link:focus {
+            background: #00ff66;
+            color: #000;
+            transform: translateX(5px);
+            outline: 2px solid #00cc52;
+            box-shadow: 0 0 15px rgba(0,255,102,0.5);
+        }
+
+        .submenu {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        .submenu .menu-link {
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            font-weight: normal;
+        }
+
+        .content {
+            flex: 1;
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,255,100,0.3);
+            min-height: 600px;
+            border: 2px solid #00ff66;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            scroll-margin-top: 20px;
+        }
+
+        .section h2 {
+            color: #00ff66;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-left: 5px solid #00ff66;
+            padding-left: 15px;
+            text-shadow: 0 0 10px rgba(0,255,102,0.5);
+        }
+
+        .section h3 {
+            color: #00cc52;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .section h4 {
+            color: #00ff66;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+            font-size: 1.05rem;
+            color: #d0d0d0;
+        }
+
+        .section ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 10px;
+            color: #d0d0d0;
+        }
+
+        .topic-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .quiz-container {
+            background: #0f0f0f;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 2px solid #00ff66;
+        }
+
+        .question {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,255,100,0.2);
+            border: 1px solid #00ff66;
+        }
+
+        .question h4 {
+            color: #00ff66;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .options {
+            margin-left: 10px;
+        }
+
+        .option {
+            display: block;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            color: #d0d0d0;
+        }
+
+        .option:hover {
+            background: #00ff6620;
+            border-left: 3px solid #00ff66;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #00ff66 0%, #00cc52 100%);
+            color: #000;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover, .submit-btn:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,255,102,0.6);
+            outline: 2px solid #00ff66;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result.success {
+            background: #003d1a;
+            color: #00ff66;
+            border: 2px solid #00ff66;
+        }
+
+        .result.info {
+            background: #1a1a1a;
+            color: #00cc52;
+            border: 2px solid #00cc52;
+        }
+
+        .cc-badge {
+            display: inline-block;
+            background: #0f0f0f;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            border: 1px solid #00ff66;
+            color: #00ff66;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            header {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .section h3 {
+                font-size: 1.2rem;
+            }
+
+            .topic-image {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            .section h2 {
+                font-size: 1.3rem;
+            }
+
+            .question {
+                padding: 15px;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+
+        /* Accesibilidad */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #00ff66;
+            color: #000;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        :focus {
+            outline: 2px solid #00ff66;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link" aria-label="Saltar al contenido principal">Saltar al contenido</a>
+    
+    <div class="container">
+        <header role="banner">
+            <h1>Objeto Virtual de Aprendizaje</h1>
+            <p>Introducción a la Inteligencia Artificial Generativa</p>
+        </header>
+
+        <div class="main-content">
+            <nav class="sidebar" role="navigation" aria-label="Menú de navegación principal">
+                <h3>Contenidos</h3>
+                <div class="menu-item">
+                    <a href="#presentacion" class="menu-link" aria-label="Ir a Presentación del OVA">Presentación</a>
+                </div>
+                <div class="menu-item">
+                    <a href="#tema1-1" class="menu-link" aria-label="Ir a tema 1.1 Qué es la IA Generativa">1.1 ¿Qué es la IA Generativa?</a>
+                    <div class="submenu">
+                        <a href="#tema1-1-1" class="menu-link" aria-label="Ir a subtema Definición y conceptos básicos">1.1.1 Definición y conceptos</a>
+                        <a href="#tema1-1-2" class="menu-link" aria-label="Ir a subtema Historia y evolución">1.1.2 Historia y evolución</a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a href="#tema1-2" class="menu-link" aria-label="Ir a tema 1.2 Tipos de IA Generativa">1.2 Tipos de IA Generativa</a>
+                    <div class="submenu">
+                        <a href="#tema1-2-1" class="menu-link" aria-label="Ir a subtema Generación de texto">1.2.1 Generación de texto</a>
+                        <a href="#tema1-2-2" class="menu-link" aria-label="Ir a subtema Generación de imágenes">1.2.2 Generación de imágenes</a>
+                        <a href="#tema1-2-3" class="menu-link" aria-label="Ir a subtema Generación de audio y video">1.2.3 Generación de audio y video</a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a href="#tema1-3" class="menu-link" aria-label="Ir a tema 1.3 Cómo funciona la IA Generativa">1.3 ¿Cómo funciona?</a>
+                    <div class="submenu">
+                        <a href="#tema1-3-1" class="menu-link" aria-label="Ir a subtema Redes neuronales">1.3.1 Redes neuronales</a>
+                        <a href="#tema1-3-2" class="menu-link" aria-label="Ir a subtema Modelos de lenguaje">1.3.2 Modelos de lenguaje</a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a href="#tema1-4" class="menu-link" aria-label="Ir a tema 1.4 Aplicaciones prácticas">1.4 Aplicaciones prácticas</a>
+                    <div class="submenu">
+                        <a href="#tema1-4-1" class="menu-link" aria-label="Ir a subtema En educación">1.4.1 En educación</a>
+                        <a href="#tema1-4-2" class="menu-link" aria-label="Ir a subtema En negocios">1.4.2 En negocios</a>
+                        <a href="#tema1-4-3" class="menu-link" aria-label="Ir a subtema En creatividad">1.4.3 En creatividad</a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a href="#tema1-5" class="menu-link" aria-label="Ir a tema 1.5 Ética y consideraciones">1.5 Ética y futuro</a>
+                    <div class="submenu">
+                        <a href="#tema1-5-1" class="menu-link" aria-label="Ir a subtema Desafíos éticos">1.5.1 Desafíos éticos</a>
+                        <a href="#tema1-5-2" class="menu-link" aria-label="Ir a subtema Futuro de la IA">1.5.2 Futuro de la IA</a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a href="#actividades" class="menu-link" aria-label="Ir a Actividades de aprendizaje">Actividades</a>
+                </div>
+            </nav>
+
+            <main class="content" id="main-content" role="main">
+                <section id="presentacion" class="section">
+                    <h2>Presentación del OVA</h2>
+                    <p>Este recurso nos muestra cómo crear una página web sobre <strong>Introducción a la Inteligencia Artificial Generativa</strong> con recursos educativos. Fue creado por:</p>
+                    <ul>
+                        <li><strong>Emerson Amir Vera González</strong></li>
+                        <li><strong>Raúl David Báez Suárez</strong></li>
+                        <li><strong>Hernando Jahir Güiza</strong></li>
+                    </ul>
+                    <p>Este OVA fue desarrollado bajo la metodología QCHE del Dr. Raúl E. Rodríguez Ibáñez.</p>
+                    
+                    <h3>¿Qué es la metodología QCHE?</h3>
+                    <p>QCHE es un enfoque pedagógico que estructura el aprendizaje en cuatro fases esenciales:</p>
+                    <ul>
+                        <li><strong>¿Qué voy a hacer?</strong> - Identificar los objetivos de aprendizaje</li>
+                        <li><strong>¿Cómo lo voy a hacer?</strong> - Planificar estrategias y recursos</li>
+                        <li><strong>Hacer</strong> - Ejecutar las actividades de aprendizaje</li>
+                        <li><strong>Evaluar</strong> - Reflexionar sobre lo aprendido</li>
+                    </ul>
+                    
+                    <div class="cc-badge" role="contentinfo">
+                        📄 Licenciamiento: Creative Commons BY-SA 4.0
+                    </div>
+                </section>
+
+                <section id="tema1-1" class="section">
+                    <h2>1.1 ¿Qué es la Inteligencia Artificial Generativa?</h2>
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=250&fit=crop" alt="Representación visual de inteligencia artificial con circuitos neuronales digitales" class="topic-image">
+                    
+                    <p>La Inteligencia Artificial Generativa es una rama fascinante de la IA que se enfoca en crear contenido nuevo y original. A diferencia de los sistemas tradicionales que solo analizan datos, la IA generativa puede producir textos, imágenes, música, videos y más, aprendiendo de patrones en grandes cantidades de información.</p>
+
+                    <h3 id="tema1-1-1">1.1.1 Definición y conceptos básicos</h3>
+                    <p>Imagina una IA como un estudiante muy dedicado que ha leído millones de libros, visto millones de imágenes y escuchado millones de canciones. Esta IA puede luego crear algo nuevo basándose en todo lo que ha aprendido. Eso es la IA generativa: sistemas que aprenden de ejemplos existentes para generar contenido completamente nuevo.</p>
+                    
+                    <p>Los conceptos clave incluyen:</p>
+                    <ul>
+                        <li><strong>Aprendizaje automático:</strong> La capacidad de aprender patrones sin programación explícita</li>
+                        <li><strong>Modelos de IA:</strong> Estructuras matemáticas entrenadas con datos</li>
+                        <li><strong>Generación de contenido:</strong> Creación de nuevo material basado en patrones aprendidos</li>
+                        <li><strong>Prompts:</strong> Instrucciones que le damos a la IA para generar contenido específico</li>
+                    </ul>
+
+                    <h3 id="tema1-1-2">1.1.2 Historia y evolución</h3>
+                    <p>La IA generativa no es nueva, pero ha experimentado un crecimiento explosivo en los últimos años. En los años 50, comenzaron los primeros experimentos con IA. En 2014, las Redes Generativas Antagónicas (GANs) revolucionaron la generación de imágenes. En 2017, la arquitectura Transformer cambió el procesamiento de lenguaje. Y desde 2022, herramientas como ChatGPT, DALL-E y Midjourney han llevado la IA generativa al público masivo.</p>
+                    
+                    <p>Este desarrollo ha sido posible gracias a tres factores: el aumento de poder computacional, la disponibilidad de grandes cantidades de datos y los avances en algoritmos de aprendizaje profundo.</p>
+                </section>
+
+                <section id="tema1-2" class="section">
+                    <h2>1.2 Tipos de IA Generativa</h2>
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=250&fit=crop" alt="Ilustración de diferentes tipos de contenido digital generado por IA" class="topic-image">
+                    
+                    <p>La IA generativa se presenta en múltiples formas, cada una especializada en crear diferentes tipos de contenido. Veamos las principales categorías:</p>
+
+                    <h3 id="tema1-2-1">1.2.1 Generación de texto</h3>
+                    <p>Los modelos de lenguaje como GPT-4, Claude y Gemini pueden escribir artículos, poemas, código, correos electrónicos y mantener conversaciones naturales. Estos sistemas entienden el contexto y pueden adaptar su estilo de escritura según las necesidades. Son útiles para redacción de contenidos, asistencia en programación, traducción y educación personalizada.</p>
+
+                    <h3 id="tema1-2-2">1.2.2 Generación de imágenes</h3>
+                    <p>Herramientas como DALL-E, Midjourney y Stable Diffusion crean imágenes a partir de descripciones textuales. Puedes pedirle "un gato astronauta en Marte al estilo Van Gogh" y obtendrás una imagen única. Esta tecnología está revolucionando el diseño gráfico, la publicidad y el arte digital.</p>
+
+                    <h3 id="tema1-2-3">1.2.3 Generación de audio y video</h3>
+                    <p>La IA puede componer música, clonar voces y crear videos. Herramientas como Suno generan canciones completas, ElevenLabs crea voces realistas, y plataformas como Runway ML permiten editar y generar video con IA. Esto tiene aplicaciones en entretenimiento, doblaje, educación y más.</p>
+                </section>
+
+                <section id="tema1-3" class="section">
+                    <h2>1.3 ¿Cómo funciona la IA Generativa?</h2>
+                    <img src="https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=800&h=250&fit=crop" alt="Diagrama conceptual de redes neuronales y procesamiento de datos" class="topic-image">
+                    
+                    <p>Aunque la tecnología detrás de la IA generativa es compleja, podemos entender los conceptos básicos sin necesidad de ser expertos en matemáticas o programación.</p>
+
+                    <h3 id="tema1-3-1">1.3.1 Redes neuronales y aprendizaje profundo</h3>
+                    <p>Las redes neuronales artificiales se inspiran en cómo funciona nuestro cerebro. Imagina millones de neuronas artificiales conectadas entre sí, cada una procesando pequeños fragmentos de información. Cuando entrenas una red neuronal con millones de ejemplos, estas conexiones se ajustan para reconocer patrones complejos.</p>
+                    
+                    <p>El "aprendizaje profundo" se refiere a redes con muchas capas de neuronas. Cada capa extrae características más abstractas: en reconocimiento de imágenes, las primeras capas detectan bordes, las siguientes formas, y las finales objetos completos.</p>
+
+                    <h3 id="tema1-3-2">1.3.2 Modelos de lenguaje y Transformers</h3>
+                    <p>Los modelos de lenguaje modernos, basados en la arquitectura Transformer, han revolucionado el procesamiento de texto. Estos modelos leen y comprenden el contexto de las palabras en una oración, prediciendo qué viene después de manera coherente.</p>
+                    
+                    <p>Cuando escribes un prompt, el modelo analiza cada palabra, entiende la relación entre ellas y genera una respuesta palabra por palabra, siempre considerando lo que ya ha escrito para mantener coherencia. Es como un escritor extremadamente rápido que ha leído toda la internet.</p>
+                </section>
+
+                <section id="tema1-4" class="section">
+                    <h2>1.4 Aplicaciones prácticas de la IA Generativa</h2>
+                    <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=250&fit=crop" alt="Personas trabajando con tecnología y aplicaciones de IA en diferentes contextos" class="topic-image">
+                    
+                    <p>La IA generativa está transformando prácticamente todas las industrias. Veamos cómo se aplica en diferentes campos:</p>
+
+                    <h3 id="tema1-4-1">1.4.1 Aplicaciones en educación</h3>
+                    <p>En el ámbito educativo, la IA generativa es una herramienta poderosa: crea tutores personalizados que adaptan explicaciones a cada estudiante, genera ejercicios y evaluaciones personalizadas, traduce contenidos a múltiples idiomas, crea resúmenes de textos complejos y asiste en la investigación bibliográfica.</p>
+                    
+                    <p>Los profesores pueden usar IA para diseñar materiales didácticos, crear presentaciones interactivas y ofrecer retroalimentación inmediata a los estudiantes. Los estudiantes pueden practicar idiomas, recibir explicaciones paso a paso de problemas matemáticos y explorar conceptos complejos con simulaciones.</p>
+
+                    <h3 id="tema1-4-2">1.4.2 Aplicaciones en negocios</h3>
+                    <p>Las empresas están adoptando IA generativa para aumentar productividad: automatización de atención al cliente con chatbots inteligentes, creación de contenido de marketing y publicidad, análisis de datos y generación de reportes, asistencia en programación y desarrollo de software, y diseño de productos y prototipos.</p>
+                    
+                    <p>Pequeños emprendedores pueden ahora competir con grandes empresas gracias a herramientas de IA que antes solo estaban disponibles para corporaciones con grandes presupuestos.</p>
+
+                    <h3 id="tema1-4-3">1.4.3 Aplicaciones en arte y creatividad</h3>
+                    <p>Los artistas y creativos están explorando nuevas fronteras: generación de arte digital y NFTs, composición musical asistida por IA, escritura creativa colaborativa entre humanos y máquinas, diseño de moda y arquitectura, y creación de contenido para videojuegos y películas.</p>
+                    
+                    <p>La IA no reemplaza la creatividad humana, sino que la amplifica, permitiendo a los artistas experimentar rápidamente con ideas y explorar estilos que serían difíciles de lograr manualmente.</p>
+                </section>
+
+                <section id="tema1-5" class="section">
+                    <h2>1.5 Ética y el futuro de la IA Generativa</h2>
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=250&fit=crop" alt="Concepto visual sobre ética, tecnología y el futuro de la inteligencia artificial" class="topic-image">
+                    
+                    <p>Con gran poder viene gran responsabilidad. La IA generativa plantea importantes preguntas éticas y sociales que debemos abordar:</p>
+
+                    <h3 id="tema1-5-1">1.5.1 Desafíos éticos y consideraciones</h3>
+                    <p><strong>Desinformación y deepfakes:</strong> La IA puede crear imágenes, videos y textos falsos pero convincentes. Esto representa un riesgo para la democracia y la confianza en la información. Es crucial desarrollar herramientas de detección y educar al público sobre estos riesgos.</p>
+                    
+                    <p><strong>Derechos de autor y propiedad intelectual:</strong> Si una IA entrena con obras protegidas y genera algo nuevo, ¿quién es el dueño? ¿El creador de la IA, el usuario o nadie? Estas son preguntas legales que aún se están debatiendo.</p>
+                    
+                    <p><strong>Sesgos y discriminación:</strong> Si entrenamos una IA con datos que contienen prejuicios, la IA reproducirá esos sesgos. Debemos trabajar activamente para crear sistemas más justos e inclusivos.</p>
+                    
+                    <p><strong>Impacto laboral:</strong> Algunas profesiones cambiarán o desaparecerán, mientras surgen nuevas oportunidades. La clave está en la educación continua y la adaptación.</p>
+
+                    <h3 id="tema1-5-2">1.5.2 El futuro de la IA Generativa</h3>
+                    <p>El futuro de la IA generativa es prometedor y desafiante. Veremos sistemas más precisos, creativos y especializados. La IA multimodal combinará texto, imagen, audio y video de formas innovadoras. Los modelos serán más eficientes energéticamente y accesibles.</p>
+                    
+                    <p>La integración de IA en nuestras vidas cotidianas será cada vez más natural: asistentes personales más inteligentes, educación ultra-personalizada, medicina predictiva y preventiva, y nuevas formas de expresión artística.</p>
+                    
+                    <p>Lo más importante es que seamos activos en dar forma a este futuro, asegurando que la IA sirva al bienestar humano y respete nuestros valores fundamentales. El desarrollo responsable de la IA requiere colaboración entre tecnólogos, legisladores, educadores, artistas y ciudadanos.</p>
+                </section>
+
+                <section id="actividades" class="section">
+                    <h2>Actividades de Aprendizaje</h2>
+                    <p>Pon a prueba tus conocimientos sobre IA Generativa con este cuestionario. Selecciona la respuesta que consideres correcta para cada pregunta:</p>
+                    
+                    <div class="quiz-container">
+                        <form id="quizForm" aria-label="Cuestionario de evaluación">
+                            <div class="question">
+                                <h4>1. ¿Qué característica principal distingue a la IA Generativa de otros tipos de IA?</h4>
+                                <div class="options">
+                                    <label class="option">
+                                        <input type="radio" name="q1" value="a" aria-label="Opción A">
+                                        Solo puede analizar datos existentes
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q1" value="b" aria-label="Opción B">
+                                        Puede crear contenido nuevo y original
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q1" value="c" aria-label="Opción C">
+                                        Funciona sin necesidad de datos de entrenamiento
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q1" value="d" aria-label="Opción D">
+                                        Solo funciona con números y cálculos matemáticos
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <h4>2. ¿Cuál de las siguientes NO es una aplicación común de la IA Generativa?</h4>
+                                <div class="options">
+                                    <label class="option">
+                                        <input type="radio" name="q2" value="a" aria-label="Opción A">
+                                        Generación de imágenes a partir de texto
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q2" value="b" aria-label="Opción B">
+                                        Control directo de dispositivos mecánicos
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q2" value="c" aria-label="Opción C">
+                                        Creación de música y composiciones
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q2" value="d" aria-label="Opción D">
+                                        Redacción de textos y artículos
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <h4>3. ¿Qué arquitectura revolucionó el procesamiento de lenguaje natural en 2017?</h4>
+                                <div class="options">
+                                    <label class="option">
+                                        <input type="radio" name="q3" value="a" aria-label="Opción A">
+                                        Redes Convolucionales (CNN)
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q3" value="b" aria-label="Opción B">
+                                        Transformer
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q3" value="c" aria-label="Opción C">
+                                        Redes Recurrentes (RNN)
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q3" value="d" aria-label="Opción D">
+                                        Perceptrón Multicapa
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <h4>4. ¿Cuál es uno de los principales desafíos éticos de la IA Generativa?</h4>
+                                <div class="options">
+                                    <label class="option">
+                                        <input type="radio" name="q4" value="a" aria-label="Opción A">
+                                        El alto costo de electricidad
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q4" value="b" aria-label="Opción B">
+                                        La creación de deepfakes y desinformación
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q4" value="c" aria-label="Opción C">
+                                        La falta de usuarios interesados
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q4" value="d" aria-label="Opción D">
+                                        La incompatibilidad con dispositivos móviles
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <h4>5. ¿Qué significa la sigla "GAN" en el contexto de IA Generativa?</h4>
+                                <div class="options">
+                                    <label class="option">
+                                        <input type="radio" name="q5" value="a" aria-label="Opción A">
+                                        General Artificial Network
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q5" value="b" aria-label="Opción B">
+                                        Generative Adversarial Network
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q5" value="c" aria-label="Opción C">
+                                        Global Algorithm Node
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="q5" value="d" aria-label="Opción D">
+                                        Graphical Analysis Network
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="submit-btn" aria-label="Enviar respuestas del cuestionario">Enviar Respuestas</button>
+                        </form>
+
+                        <div id="result" class="result" role="alert" aria-live="polite"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const answers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'b',
+                q4: 'b',
+                q5: 'b'
+            };
+            
+            let score = 0;
+            let total = 5;
+            
+            for (let question in answers) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (selected && selected.value === answers[question]) {
+                    score++;
+                }
+            }
+            
+            const resultDiv = document.getElementById('result');
+            const percentage = (score / total) * 100;
+            
+            resultDiv.className = 'result show';
+            
+            if (percentage >= 80) {
+                resultDiv.className += ' success';
+                resultDiv.innerHTML = `🎉 ¡Excelente! Has obtenido ${score} de ${total} respuestas correctas (${percentage}%). Tienes un gran dominio del tema.`;
+            } else if (percentage >= 60) {
+                resultDiv.className += ' info';
+                resultDiv.innerHTML = `👍 Buen trabajo. Has obtenido ${score} de ${total} respuestas correctas (${percentage}%). Revisa los temas donde tuviste dificultades.`;
+            } else {
+                resultDiv.className += ' info';
+                resultDiv.innerHTML = `📚 Has obtenido ${score} de ${total} respuestas correctas (${percentage}%). Te recomendamos repasar los contenidos del OVA.`;
+            }
+            
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // Smooth scroll para los enlaces del menú
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
